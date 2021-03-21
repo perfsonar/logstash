@@ -1,0 +1,27 @@
+---
+- name: perfSONAR Logstash Pipeline Setup
+  hosts: localhost
+  vars_files:
+    - ./vars/version.yml
+    - ./vars/env.yml
+  tasks:
+    #Update docker-compose.yml
+    - name: Apply docker-compose.yml template
+      template:
+        src:  templates/docker-compose.yml.j2
+        dest: ../docker-compose.yml
+    #Configure logstash input plugins
+    - name: Apply 01-inputs.conf template
+      template:
+        src: templates/01-inputs.conf.j2
+        dest: ../pipeline/01-inputs.conf
+    #Configure logstash output plugins
+    - name: Apply 99-outputs.conf template
+      template:
+        src: templates/99-outputs.conf.j2
+        dest: ../pipeline/99-outputs.conf
+    #Configure logstash docker environment
+    - name: Apply logstash_docker_env to create .env
+      template:
+        src: templates/logstash_docker_env.j2
+        dest: ../.env

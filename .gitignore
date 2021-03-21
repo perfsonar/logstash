@@ -1,0 +1,10 @@
+.DS_Store
+.*.swn
+.*.swo
+.*.swp
+.vscode/
+.env
+docker-compose.yml
+pipeline/01-inputs.conf
+pipeline/99-outputs.conf
+ansible/vars/env.yml
