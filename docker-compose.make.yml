@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  ansible_runner:
+    image: 'ansible/ansible-runner:1.4.6'
+    volumes:
+      - ./ansible:/app
+    working_dir: /app
+    environment:
+      - RUNNER_PLAYBOOK=/app/playbook.yml
