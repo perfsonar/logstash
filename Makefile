@@ -24,7 +24,10 @@ build: dc_clean
 	docker-compose -f docker-compose.make.yml down -v
 
 centos7: release build
-	docker-compose -f docker-compose.qa.yml build centos7
+	mkdir -p ./artifacts/centos7
+	docker-compose -f docker-compose.qa.yml up --build --no-start centos7
+	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
+	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/RPMS/noarch ./artifacts/centos7/rpms
 
 dist:
 	mkdir /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
@@ -53,3 +56,4 @@ endif
 
 clean:
 	rm -f docker-compose.yml .env pipeline/01-inputs.conf pipeline/99-outputs.conf
+	rm -rf artifacts/

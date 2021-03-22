@@ -4,6 +4,7 @@
 .*.swp
 .vscode/
 .env
+artifacts/
 docker-compose.yml
 pipeline/01-inputs.conf
 pipeline/99-outputs.conf
