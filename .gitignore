@@ -8,3 +8,4 @@ docker-compose.yml
 pipeline/01-inputs.conf
 pipeline/99-outputs.conf
 ansible/vars/env.yml
+pipeline_etc/logstash_sysconfig

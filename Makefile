@@ -1,5 +1,12 @@
 # Makefile for perfSONAR Logstash pipeline
 #
+PACKAGE=perfsonar-logstash
+ROOTPATH=/usr/lib/perfsonar/logstash
+CONFIGPATH=/etc/perfsonar/logstash
+PERFSONAR_AUTO_VERSION=4.4.0
+PERFSONAR_AUTO_RELNUM=0.0.a1
+VERSION=${PERFSONAR_AUTO_VERSION}
+RELEASE=${PERFSONAR_AUTO_RELNUM}
 
 default: build
 
@@ -16,17 +23,33 @@ build: dc_clean
 	docker-compose build logstash
 	docker-compose -f docker-compose.make.yml down -v
 
-native_build:
-	ansible-playbook playbook.yml
+centos7: release build
+	docker-compose -f docker-compose.qa.yml build centos7
+
+dist:
+	mkdir /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
+	cp -rf . /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
+	tar czf $(PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PACKAGE)-$(VERSION).$(RELEASE)
+	rm -rf /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
+
+install:
+	mkdir -p ${ROOTPATH}/pipeline
+	mkdir -p ${ROOTPATH}/ruby
+	mkdir -p ${ROOTPATH}/scripts
+	mkdir -p ${CONFIGPATH}
+	cp -r pipeline/* ${ROOTPATH}/pipeline
+	cp -r ruby/* ${ROOTPATH}/ruby
+	cp -r scripts/* ${ROOTPATH}/scripts
+	cp -r pipeline_etc/* ${CONFIGPATH}
 
 # Some of the jobs require the containers to be down. Detects if we have 
 # already generated a docker-compose.yml and stops containers accordingly
 dc_clean:
 ifneq ("$(wildcard ./docker-compose.yml)","")
-	docker-compose -f docker-compose.yml -f docker-compose.make.yml down -v
+	docker-compose -f docker-compose.yml -f docker-compose.qa.yml -f docker-compose.make.yml down -v
 else
-	docker-compose -f docker-compose.make.yml down -v
+	docker-compose -f docker-compose.qa.yml -f docker-compose.make.yml down -v
 endif
 
-clean: dc_clean
+clean:
 	rm -f docker-compose.yml .env pipeline/01-inputs.conf pipeline/99-outputs.conf

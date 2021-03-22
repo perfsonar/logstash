@@ -4,7 +4,6 @@ output {
     stdout { codec => rubydebug { metadata => true } }
 }
 {% endif %}
-
 {% if "elastic" in output_plugins %}
 output {
     #If has [test][type] create index using that in name.
@@ -12,10 +11,12 @@ output {
     if [test][type] {
         elasticsearch {
             hosts => ["${elastic_output_host}"]
-{% if elastic_output_use_auth is defined and elastic_output_use_auth %}
+{% if elastic_output_cacert is defined %}
             ssl => "true"
             cacert => "${elastic_output_cacert}"
             ssl_certificate_verification => false
+{% endif %}
+{% if elastic_output_use_auth is defined and elastic_output_use_auth %}
             user => "${elastic_output_user}"
             password => "${elastic_output_password}"
 {% endif %}
@@ -27,7 +28,6 @@ output {
 {% else %}
             index => "pscheduler_%{[test][type]}-%{+YYYY.MM.dd}"
 {% endif %}     
-            
             template => "/etc/perfsonar/logstash/index_template-pscheduler.json"
             template_name => "pscheduler"
             template_overwrite => true

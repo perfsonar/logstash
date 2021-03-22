@@ -25,3 +25,8 @@
       template:
         src: templates/logstash_docker_env.j2
         dest: ../.env
+    #Configure logstash sysconfig environment for os packages
+    - name: Apply logstash sysconfig to create .env
+      template:
+        src: templates/logstash_sysconfig.j2
+        dest: ../pipeline_etc/logstash_sysconfig
