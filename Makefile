@@ -7,6 +7,8 @@ PERFSONAR_AUTO_VERSION=4.4.0
 PERFSONAR_AUTO_RELNUM=0.0.a1
 VERSION=${PERFSONAR_AUTO_VERSION}
 RELEASE=${PERFSONAR_AUTO_RELNUM}
+DC_CMD_BASE=docker-compose
+DC_CMD=${DC_CMD_BASE} -p ${PACKAGE}
 
 default: build
 
@@ -19,17 +21,17 @@ release:
 	cp -f ./ansible/vars/env.release.yml ./ansible/vars/env.yml
 
 build: dc_clean
-	docker-compose -f docker-compose.make.yml up ansible_runner
-	docker-compose -f docker-compose.make.yml down -v
+	${DC_CMD} -f docker-compose.make.yml up ansible_runner
+	${DC_CMD} -f docker-compose.make.yml down -v
 
 docker: build
-	docker-compose build logstash
+	${DC_CMD} build logstash
 
-centos7: release build
+centos7: clean release build
 	mkdir -p ./artifacts/centos7
-	docker-compose -f docker-compose.qa.yml up --build --no-start centos7
-	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
-	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/RPMS/noarch ./artifacts/centos7/rpms
+	${DC_CMD} -f docker-compose.qa.yml up --build --no-start centos7
+	docker cp ${PACKAGE}_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
+	docker cp ${PACKAGE}_centos7_1:/root/rpmbuild/RPMS/noarch ./artifacts/centos7/rpms
 
 dist:
 	mkdir /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
@@ -49,11 +51,14 @@ install:
 
 # Some of the jobs require the containers to be down. Detects if we have 
 # already generated a docker-compose.yml and stops containers accordingly
+# Uses ${DC_CMD} and ${DC_CMD_BASE} to cleanup both default and non-default images
 dc_clean:
 ifneq ("$(wildcard ./docker-compose.yml)","")
-	docker-compose -f docker-compose.yml -f docker-compose.qa.yml -f docker-compose.make.yml down -v
+	${DC_CMD} -f docker-compose.yml -f docker-compose.qa.yml -f docker-compose.make.yml down -v
+	${DC_CMD_BASE} -f docker-compose.yml -f docker-compose.qa.yml -f docker-compose.make.yml down -v
 else
-	docker-compose -f docker-compose.qa.yml -f docker-compose.make.yml down -v
+	${DC_CMD} -f docker-compose.qa.yml -f docker-compose.make.yml down -v
+	${DC_CMD_BASE} -f docker-compose.qa.yml -f docker-compose.make.yml down -v
 endif
 
 clean:
