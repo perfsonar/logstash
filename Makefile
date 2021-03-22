@@ -20,8 +20,10 @@ release:
 
 build: dc_clean
 	docker-compose -f docker-compose.make.yml up ansible_runner
-	docker-compose build logstash
 	docker-compose -f docker-compose.make.yml down -v
+
+docker: build
+	docker-compose build logstash
 
 centos7: release build
 	mkdir -p ./artifacts/centos7
