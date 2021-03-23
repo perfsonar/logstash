@@ -28,7 +28,7 @@ COPY . /app
 #Build RPM
 RUN cd /app && \
     make dist && \
-    mv perfsonar-logstash-4.4.0.0.0.a1.tar.gz ~/rpmbuild/SOURCES/ && \
+    mv perfsonar-logstash-*.tar.gz ~/rpmbuild/SOURCES/ && \
     rpmbuild -bs perfsonar-logstash.spec && \
     rpmbuild -ba perfsonar-logstash.spec && \
     yum install -y ~/rpmbuild/RPMS/noarch/*.rpm
