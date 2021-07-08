@@ -19,7 +19,7 @@ URL:			http://www.perfsonar.net
 Source0:		perfsonar-logstash-%{version}.%{perfsonar_auto_relnum}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
-Requires:		logstash
+Requires:       logstash-oss = 1:7.12.1-1
 Requires(post): python3
 Requires(post): python36-PyYAML
 
