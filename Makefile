@@ -26,8 +26,8 @@ build: dc_clean
 centos7: release build
 	mkdir -p ./artifacts/centos7
 	docker-compose -f docker-compose.qa.yml up --build --no-start centos7
-	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
-	docker cp perfsonar-logstash_centos7_1:/root/rpmbuild/RPMS/noarch ./artifacts/centos7/rpms
+	docker cp logstash_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
+	docker cp logstash_centos7_1:/root/rpmbuild/RPMS/noarch ./artifacts/centos7/rpms
 
 dist:
 	mkdir /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)

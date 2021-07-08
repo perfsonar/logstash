@@ -11,10 +11,10 @@ output {
     if [test][type] {
         elasticsearch {
             hosts => ["${elastic_output_host}"]
+            ssl_certificate_verification => false
 {% if elastic_output_cacert is defined %}
             ssl => "true"
             cacert => "${elastic_output_cacert}"
-            ssl_certificate_verification => false
 {% endif %}
 {% if elastic_output_use_auth is defined and elastic_output_use_auth %}
             user => "${elastic_output_user}"
