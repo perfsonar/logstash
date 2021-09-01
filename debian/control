@@ -1,12 +1,13 @@
 Source: perfsonar-logstash
-Maintainer: Fernanda Barros <fbarros@ufba.br>
+Maintainer: perfSONAR developers <debian@perfsonar.net>
 Section: misc
 Priority: optional
 Standards-Version: 3.9.2
 Build-Depends: debhelper (>= 9)
+Homepage: http://www.perfsonar.net
 
 Package: perfsonar-logstash
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3, logstash
 Description: perfsonar logstash
  A package that installs the perfSONAR logstash pipeline for enriching measurements prior to storage.
