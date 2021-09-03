@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  logstash:
+       image: perfsonar/logstash:{{ ps_version }}
+       build:
+         context: ./
+         dockerfile: Dockerfile
+       restart: on-failure
+{% if docker_network_mode is defined %}
+    network_mode: {{ docker_network_mode }}
+{% endif %}
+       env_file: .env
+       ports:
+         - "5044:5044"
+         - "9600:9600"
+{% if "http" in input_plugins %}
+         - "11283:11283"
+{% endif %}
