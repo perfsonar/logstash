@@ -58,5 +58,5 @@ clean:
 	rm -f docker-compose.yml .env pipeline/01-inputs.conf pipeline/99-outputs.conf
 	rm -rf artifacts/
 
-deb:
+deb: release build
 	dpkg-buildpackage -b -rfakeroot -us -uc
