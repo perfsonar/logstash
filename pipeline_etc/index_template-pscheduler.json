@@ -3,9 +3,6 @@
   "index_patterns": [
     "pscheduler_*"
   ],
-  "settings": {
-    "index.lifecycle.name": "pscheduler_default_policy"
-  },
   "mappings": {
     "_source": {},
     "_meta": {},
