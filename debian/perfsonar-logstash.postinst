@@ -3,3 +3,6 @@ python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
 /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
 systemctl enable logstash.service
 systemctl start logstash.service
+
+#DEBHELPER#
+exit 0

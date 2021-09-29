@@ -2,8 +2,8 @@ Source: perfsonar-logstash
 Maintainer: perfSONAR developers <debian@perfsonar.net>
 Section: misc
 Priority: optional
-Standards-Version: 3.9.2
-Build-Depends: debhelper (>= 9)
+Standards-Version: 4.3.0
+Build-Depends: debhelper (>= 10)
 Homepage: http://www.perfsonar.net
 
 Package: perfsonar-logstash

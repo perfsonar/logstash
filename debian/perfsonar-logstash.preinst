@@ -1,2 +1,5 @@
-#/usr/sbin/groupadd -r perfsonar
-#/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar
+/usr/sbin/groupadd -r perfsonar
+/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar
+
+#DEBHELPER#
+exit 0
