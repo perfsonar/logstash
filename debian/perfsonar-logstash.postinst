@@ -1,3 +1,6 @@
+#!/bin/sh
+# postinst script for perfsonar-logstash
+
 chmod 755 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
 python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
 /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
