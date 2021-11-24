@@ -8,6 +8,6 @@ Homepage: http://www.perfsonar.net
 
 Package: perfsonar-logstash
 Architecture: all
-Depends: ${shlibs:Depends}, ${misc:Depends}, python3, python3-yaml, logstash
+Depends: ${shlibs:Depends}, ${misc:Depends}, python3, python3-yaml, logstash-oss (= 7.12)
 Description: perfsonar logstash pipeline
  A package that installs the perfSONAR logstash pipeline for enriching measurements prior to storage.
