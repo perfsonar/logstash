@@ -9,7 +9,9 @@ chmod 755 $(find /usr/lib/perfsonar/logstash -type d) $(find /etc/perfsonar/logs
 # run logstash configuration scripts
 python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
 bash /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
-sed -i 's/# pipeline\.unsafe_shutdown: false/pipeline\.unsafe_shutdown: true/' /etc/logstash/logstash.yml
+
+sed -i 's/TimeoutStopSec=infinity/TimeoutStopSec=10/' /etc/systemd/system/logstash.service
+#sed -i 's/# pipeline\.unsafe_shutdown: false/pipeline\.unsafe_shutdown: true/' /etc/logstash/logstash.yml
 
 # enable and start logstash
 systemctl enable logstash.service
