@@ -12,7 +12,7 @@ bash /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
 
 # add systemd override to logstash timeout
 mkdir /etc/systemd/system/logstash.service.d
-echo -e "[Service]\nTimeoutStopSec=10" > /etc/systemd/system/logstash.service.d/timeout-override.conf
+printf "[Service]\nTimeoutStopSec=10" > /etc/systemd/system/logstash.service.d/timeout-override.conf
 systemctl daemon-reload
 
 # enable and start logstash
