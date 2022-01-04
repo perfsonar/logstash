@@ -1,0 +1,9 @@
+#!/bin/sh
+# postinst script for perfsonar-logstash-output-plugin
+
+chown -R logstash:logstash /etc/perfsonar/logstash_output
+
+/usr/share/logstash/bin/logstash-plugin install /etc/perfsonar/logstash_output/logstash-output-opensearch.gem
+
+#DEBHELPER#
+exit 0
