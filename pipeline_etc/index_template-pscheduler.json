@@ -1,49 +1,50 @@
 {
-  "version": 424,
   "index_patterns": [
     "pscheduler_*"
   ],
-  "settings": {
-    "index.lifecycle.name": "pscheduler_default_policy"
-  },
-  "mappings": {
-    "_source": {},
-    "_meta": {},
-    "dynamic_templates": [
-      {
-        "ip_addresses": {
-          "mapping": {
-            "type": "ip"
-          },
-          "match": "ip"
-        }
-      },
-      {
-        "histograms": {
-          "mapping": {
-            "type": "histogram"
-          },
-          "match": "histogram"
-        }
-      },
-      {
-        "json_unparsed": {
-          "mapping": {
-            "type": "object",
-            "enabled": false
-          },
-          "match": "json"
-        }
-      },
-      {
-        "location": {
-          "path_match": "*.geo.location",
-          "mapping": {
-            "type": "geo_point"
+  "template": {
+    "settings": {
+      "index.lifecycle.name": "pscheduler_default_policy"
+    },
+    "mappings": {
+      "_source": {},
+      "_meta": {},
+      "dynamic_templates": [
+        {
+          "ip_addresses": {
+            "mapping": {
+              "type": "ip"
+            },
+            "match": "ip"
+          }
+        },
+        {
+          "histograms": {
+            "mapping": {
+              "type": "histogram"
+            },
+            "match": "histogram"
+          }
+        },
+        {
+          "json_unparsed": {
+            "mapping": {
+              "type": "object",
+              "enabled": false
+            },
+            "match": "json"
+          }
+        },
+        {
+          "location": {
+            "path_match": "*.geo.location",
+            "mapping": {
+              "type": "geo_point"
+            }
           }
         }
-      }
-    ],
-    "properties": {}
+      ],
+      "properties": {}
+    }
   }
 }
