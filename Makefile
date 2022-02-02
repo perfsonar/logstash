@@ -45,6 +45,10 @@ install:
 	cp -r scripts/* ${ROOTPATH}/scripts
 	cp -r pipeline_etc/* ${CONFIGPATH}
 
+plugin_install:
+	mkdir -p ${ROOTPATH}
+	cp -r output_gem/* ${ROOTPATH}
+
 # Some of the jobs require the containers to be down. Detects if we have 
 # already generated a docker-compose.yml and stops containers accordingly
 dc_clean:
