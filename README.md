@@ -24,9 +24,19 @@ tail -f /var/log/logstash/logstash-plain.log
 
 ## Debian package
 ```
-#Build logstash .deb and test it with perfsonar-testpoint
+#Build logstash .deb
 make release
 make build
+git clone https://github.com/perfsonar/debian-docker-buildmachines.git ../debian-docker-buildmachines
+pwd=$(pwd)
+cd ../debian-docker-buildmachines
+./build-in-docker logstash
+cd $pwd
+mkdir -p artifacts/debian/
+cp ../build_results/*deb artifacts/debian/
+
+
+#Test it with perfsonar-testpoint
 docker-compose -f docker-compose.debian.yml build
 docker-compose -f docker-compose.debian.yml up -d
 docker-compose -f docker-compose.debian.yml exec debian bash

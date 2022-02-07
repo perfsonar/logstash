@@ -2,29 +2,21 @@ FROM jrei/systemd-debian:10
 
 ENV container docker
 
-# Install necessary packages for debian packaging
+# Install necessary packages for testing
 RUN apt-get update -y && \
-	apt-get install -y build-essential devscripts debhelper wget apt-transport-https curl gnupg net-tools
-
-#RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-#	echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
-#  	$(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-#RUN apt-get update -y && \
-#	apt-get install -y docker-ce docker-ce-cli containerd.io
-
-# Logstash package pre configurations
-RUN wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add - && \
-	echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list && \
-	apt-get update
+	apt-get install -y wget apt-transport-https curl gnupg unzip
 
 COPY . /app/logstash/
 
+# Logstash package pre configurations
 RUN cd /app/logstash/ && \
-	make deb
+	wget https://artifacts.elastic.co/downloads/logstash/logstash-oss-7.16.1-amd64.deb && \
+	apt-get install -y ./logstash-oss*.deb
 
-RUN echo exit 0 > /usr/sbin/policy-rc.d && \
-	chmod +x /usr/sbin/policy-rc.d
+# Install perfsonar logstash and output plugin
+RUN cd /app/logstash/artifacts/debian/ && \
+	apt-get install -y ./perfsonar-logstash-output-plugin_*.deb && \
+	apt-get install -y ./perfsonar-logstash_*.deb
 
 VOLUME ["/var/lib/pgsql", "/var/log", "/etc/rsyslog.d" ]
 

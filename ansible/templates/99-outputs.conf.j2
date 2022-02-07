@@ -3,13 +3,16 @@ output {
     #-- For testing: To write all output to screen
     stdout { codec => rubydebug { metadata => true } }
 }
-{% endif %}
-{% if "elastic" in output_plugins %}
+{% else %}
 output {
     #If has [test][type] create index using that in name.
     # Also creates index template on logstash startup
     if [test][type] {
+{% if "elastic" in output_plugins %}
         elasticsearch {
+{% else %}
+        opensearch {
+{% endif %}
             hosts => ["${elastic_output_host}"]
             ssl_certificate_verification => false
 {% if elastic_output_cacert is defined %}
@@ -28,9 +31,11 @@ output {
 {% else %}
             index => "pscheduler_%{[test][type]}-%{+YYYY.MM.dd}"
 {% endif %}     
+{% if elastic_output_template is defined and elastic_output_template %}
             template => "/etc/perfsonar/logstash/index_template-pscheduler.json"
             template_name => "pscheduler"
             template_overwrite => true
+{% endif %}
         }
     }
 }
