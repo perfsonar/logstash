@@ -41,7 +41,5 @@ docker-compose -f docker-compose.debian.yml build
 docker-compose -f docker-compose.debian.yml up -d
 docker-compose -f docker-compose.debian.yml exec debian bash
 apt install perfsonar-testpoint
-dpkg -i perfsonar-logstash_1.0-1_all.deb
-apt install -f
 pscheduler task --archive '{"archiver":"http","data":{"schema":2,"_url":"http://localhost:11283","op":"put","_headers":{"content-type":"application/json"}}}' rtt --dest localhost
 ```
