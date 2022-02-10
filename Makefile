@@ -8,22 +8,9 @@ PERFSONAR_AUTO_RELNUM=0.0.a1
 VERSION=${PERFSONAR_AUTO_VERSION}
 RELEASE=${PERFSONAR_AUTO_RELNUM}
 
-default: build
+default: centos7
 
-local:
-	touch .env
-	cp -f ./ansible/vars/env.local.yml ./ansible/vars/env.yml
-
-release:
-	touch .env
-	cp -f ./ansible/vars/env.release.yml ./ansible/vars/env.yml
-
-build: dc_clean
-	docker-compose -f docker-compose.make.yml up ansible_runner
-	docker-compose build logstash
-	docker-compose -f docker-compose.make.yml down -v
-
-centos7: release build
+centos7: dc_clean
 	mkdir -p ./artifacts/centos7
 	docker-compose -f docker-compose.qa.yml up --build --no-start centos7
 	docker cp logstash_centos7_1:/root/rpmbuild/SRPMS ./artifacts/centos7/srpms
@@ -49,17 +36,10 @@ plugin_install:
 	mkdir -p ${ROOTPATH}
 	cp -r output_gem/* ${ROOTPATH}
 
-# Some of the jobs require the containers to be down. Detects if we have 
-# already generated a docker-compose.yml and stops containers accordingly
 dc_clean:
-ifneq ("$(wildcard ./docker-compose.yml)","")
-	docker-compose -f docker-compose.yml -f docker-compose.qa.yml -f docker-compose.make.yml down -v
-else
-	docker-compose -f docker-compose.qa.yml -f docker-compose.make.yml down -v
-endif
+	docker-compose -f docker-compose.qa.yml down -v
 
 clean:
-	rm -f docker-compose.yml .env pipeline/01-inputs.conf pipeline/99-outputs.conf
 	rm -rf artifacts/
 
 deb:

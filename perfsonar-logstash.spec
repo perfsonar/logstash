@@ -75,7 +75,6 @@ fi
 #%{pipeline_base}/[1-8][0-9]-*.conf
 #{pipeline_base}/9[0-8]-*.conf
 %{ruby_base}/*.rb
-%{config_base}/index_template-pscheduler.json
 
 %changelog
 * Sun Mar 21 2021 andy@es.net 4.4.0-0.0.a1

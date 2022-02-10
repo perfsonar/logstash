@@ -8,7 +8,7 @@ chmod 755 $(find /usr/lib/perfsonar/logstash -type d) $(find /etc/perfsonar/logs
 
 # run logstash configuration scripts
 python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
-bash /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig_debian.sh
+bash /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig.sh
 
 # add systemd override to logstash timeout
 mkdir /etc/systemd/system/logstash.service.d
