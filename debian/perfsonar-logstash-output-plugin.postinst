@@ -3,12 +3,10 @@
 
 chown -R logstash:logstash /etc/perfsonar/logstash_output
 
-LIST_OUTPUT=$(/usr/share/logstash/bin/logstash-plugin list --verbose logstash-output-opensearch)
-CURRENT=${LIST_OUTPUT#*logstash/jdk}
-PLUGIN='logstash-output-opensearch'
-if [[ "$CURRENT" == *"$PLUGIN"* ]]; then
-    #VERSION=${CURRENT#*$PLUGIN}
-    # STOP LOGSTASH
+PLUGIN_INSTALLED=$(/usr/share/logstash/bin/logstash-plugin list --verbose | grep logstash-output-opensearch)
+#TODO: compare plugin installed version with package version
+if [ ! -z "$PLUGIN_INSTALLED" ]; then
+    #if upgrade, safely remove old plugin before adding new
     systemctl stop logstash
     /usr/share/logstash/bin/logstash-plugin remove $PLUGIN
     /usr/share/logstash/bin/logstash-plugin install /etc/perfsonar/logstash_output/logstash-output-opensearch.gem
