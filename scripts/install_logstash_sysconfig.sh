@@ -13,8 +13,10 @@ if [[ $OS == *"CentOS"* ]]; then
         ln -s /etc/perfsonar/logstash/logstash_sysconfig /etc/sysconfig/logstash
     fi
 elif [[ $OS == *"Debian"* ]] || [[ $OS == *"Ubuntu"* ]]; then
-    if [ ! -e /etc/default/logstash ]; then
+    if [ -e /etc/default/logstash ]; then
         cat /etc/perfsonar/logstash/logstash_sysconfig >> /etc/default/logstash
+    else
+        ln -s /etc/perfsonar/logstash/logstash_sysconfig /etc/default/logstash
     fi
 else
     echo "$0 - [ERROR]: Unknown operating system"
