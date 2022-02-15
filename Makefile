@@ -1,6 +1,7 @@
 # Makefile for perfSONAR Logstash pipeline
 #
 PACKAGE=perfsonar-logstash
+PLUGIN_PACKAGE=perfsonar-logstash-output-plugin
 ROOTPATH=/usr/lib/perfsonar/logstash
 CONFIGPATH=/etc/perfsonar/logstash
 PERFSONAR_AUTO_VERSION=4.4.0
@@ -21,6 +22,10 @@ dist:
 	cp -rf . /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
 	tar czf $(PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PACKAGE)-$(VERSION).$(RELEASE)
 	rm -rf /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
+	mkdir /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	cp -rf . /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	tar czf $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	rm -rf /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
 
 install:
 	mkdir -p ${ROOTPATH}/pipeline
@@ -41,6 +46,3 @@ dc_clean:
 
 clean:
 	rm -rf artifacts/
-
-deb:
-	dpkg-buildpackage -b -rfakeroot -us -uc
