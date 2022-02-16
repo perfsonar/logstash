@@ -21,3 +21,25 @@ docker-compose -f docker-compose.qa.yml up -d centos7
 docker-compose -f docker-compose.qa.yml exec centos7 bash
 tail -f /var/log/logstash/logstash-plain.log 
 ```
+
+## Debian package
+```
+#Build logstash .deb
+make release
+make build
+git clone https://github.com/perfsonar/debian-docker-buildmachines.git ../debian-docker-buildmachines
+pwd=$(pwd)
+cd ../debian-docker-buildmachines
+./build-in-docker logstash
+cd $pwd
+mkdir -p artifacts/debian/
+cp ../build_results/*deb artifacts/debian/
+
+
+#Test it with perfsonar-testpoint
+docker-compose -f docker-compose.debian.yml build
+docker-compose -f docker-compose.debian.yml up -d
+docker-compose -f docker-compose.debian.yml exec debian bash
+apt install perfsonar-testpoint
+pscheduler task --archive '{"archiver":"http","data":{"schema":2,"_url":"http://localhost:11283","op":"put","_headers":{"content-type":"application/json"}}}' rtt --dest localhost
+```

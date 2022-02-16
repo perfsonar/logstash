@@ -1,6 +1,7 @@
 # Makefile for perfSONAR Logstash pipeline
 #
 PACKAGE=perfsonar-logstash
+PLUGIN_PACKAGE=perfsonar-logstash-output-plugin
 ROOTPATH=/usr/lib/perfsonar/logstash
 CONFIGPATH=/etc/perfsonar/logstash
 PERFSONAR_AUTO_VERSION=5.0.0
@@ -10,22 +11,9 @@ RELEASE=${PERFSONAR_AUTO_RELNUM}
 DC_CMD_BASE=docker-compose
 DC_CMD=${DC_CMD_BASE} -p ${PACKAGE}
 
-default: build
+default: centos7
 
-local:
-	touch .env
-	cp -f ./ansible/vars/env.local.yml ./ansible/vars/env.yml
-
-release:
-	touch .env
-	cp -f ./ansible/vars/env.release.yml ./ansible/vars/env.yml
-
-build: dc_clean
-	docker-compose -f docker-compose.make.yml up ansible_runner
-	docker-compose build logstash
-	docker-compose -f docker-compose.make.yml down -v
-
-centos7: release build
+centos7: dc_clean
 	mkdir -p ./artifacts/centos7
 	${DC_CMD} -f docker-compose.qa.yml up --build --no-start centos7
 	docker cp ${PACKAGE}_centos7_1:/root/rpmbuild/SRPMS/ ./artifacts/centos7/srpms
@@ -36,6 +24,10 @@ dist:
 	cp -rf . /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
 	tar czf $(PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PACKAGE)-$(VERSION).$(RELEASE)
 	rm -rf /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
+	mkdir /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	cp -rf . /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	tar czf $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+	rm -rf /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
 
 install:
 	mkdir -p ${ROOTPATH}/pipeline
@@ -47,17 +39,12 @@ install:
 	cp -r scripts/* ${ROOTPATH}/scripts
 	cp -r pipeline_etc/* ${CONFIGPATH}
 
-# Some of the jobs require the containers to be down. Detects if we have 
-# already generated a docker-compose.yml and stops containers accordingly
+plugin_install:
+	mkdir -p ${ROOTPATH}
+	cp -r output_gem/* ${ROOTPATH}
+
 dc_clean:
-ifneq ("$(wildcard ./docker-compose.yml)","")
-	${DC_CMD_BASE} -f docker-compose.yml -f docker-compose.make.yml down -v
-	${DC_CMD} -f docker-compose.qa.yml down -v
-else
-	${DC_CMD_BASE} -f docker-compose.make.yml down -v
-	${DC_CMD} -f docker-compose.qa.yml down -v
-endif
+	docker-compose -f docker-compose.qa.yml down -v
 
 clean:
-	rm -f docker-compose.yml .env pipeline/01-inputs.conf pipeline/99-outputs.conf
 	rm -rf artifacts/

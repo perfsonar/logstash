@@ -1,0 +1,5 @@
+perfsonar-logstash (1.0-1) unstable; urgency=low
+
+  * Initial release. 
+
+ -- Fernanda Barros <fbarros@ufba.br>  Mon, 30 Aug 2021 14:20:09 -0300

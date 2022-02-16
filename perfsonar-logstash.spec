@@ -19,7 +19,8 @@ URL:			http://www.perfsonar.net
 Source0:		perfsonar-logstash-%{version}.%{perfsonar_auto_relnum}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
-Requires:       logstash-oss = 1:7.12.1-1
+Requires:       logstash-oss
+Requires:       perfsonar-logstash-output-plugin
 Requires(post): python3
 Requires(post): python36-PyYAML
 
@@ -75,7 +76,6 @@ fi
 #%{pipeline_base}/[1-8][0-9]-*.conf
 #{pipeline_base}/9[0-8]-*.conf
 %{ruby_base}/*.rb
-%{config_base}/index_template-pscheduler.json
 
 %changelog
 * Sun Mar 21 2021 andy@es.net 4.4.0-0.0.a1

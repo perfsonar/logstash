@@ -29,8 +29,12 @@ COPY . /app
 RUN cd /app && \
     make dist && \
     mv perfsonar-logstash-*.tar.gz ~/rpmbuild/SOURCES/ && \
+    mv perfsonar-logstash-output-plugin-*.tar.gz ~/rpmbuild/SOURCES/ && \
     rpmbuild -bs perfsonar-logstash.spec && \
     rpmbuild -ba perfsonar-logstash.spec && \
+    rpmbuild -bs perfsonar-logstash-output-plugin.spec && \
+    rpmbuild -ba perfsonar-logstash-output-plugin.spec && \
+    yum install -y ~/rpmbuild/RPMS/noarch/perfsonar-logstash-output-plugin*.rpm && \
     yum install -y ~/rpmbuild/RPMS/noarch/*.rpm
 
 #This is docker specific stuff that is only needed here
