@@ -1,6 +1,6 @@
 ## Logstash environment variables.
 log_level=info
-elastic_output_host=https://localhost:9200/
-elastic_output_user=pscheduler_logstash
-elastic_output_password=pscheduler_logstash
+opensearch_output_host=https://localhost:9200
+opensearch_output_user=pscheduler_logstash
+opensearch_output_password=pscheduler_logstash
 XPACK_MONITORING_ENABLED=False
