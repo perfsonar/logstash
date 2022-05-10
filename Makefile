@@ -1,50 +1,40 @@
-# Makefile for perfSONAR Logstash pipeline
 #
-PACKAGE=perfsonar-logstash
-PLUGIN_PACKAGE=perfsonar-logstash-output-plugin
-ROOTPATH=/usr/lib/perfsonar/logstash
-CONFIGPATH=/etc/perfsonar/logstash
-PERFSONAR_AUTO_VERSION=5.0.0
-PERFSONAR_AUTO_RELNUM=0.0.a1
-VERSION=${PERFSONAR_AUTO_VERSION}
-RELEASE=${PERFSONAR_AUTO_RELNUM}
-DC_CMD_BASE=docker-compose
-DC_CMD=${DC_CMD_BASE} -p ${PACKAGE}
+# Makefile for logstash top-level directory
+#
 
-default: centos7
+default: build
 
-centos7: dc_clean
-	mkdir -p ./artifacts/centos7
-	${DC_CMD} -f docker-compose.qa.yml up --build --no-start centos7
-	docker cp ${PACKAGE}_centos7_1:/root/rpmbuild/SRPMS/ ./artifacts/centos7/srpms
-	docker cp ${PACKAGE}_centos7_1:/root/rpmbuild/RPMS/noarch/ ./artifacts/centos7/rpms
 
-dist:
-	mkdir /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
-	cp -rf . /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
-	tar czf $(PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PACKAGE)-$(VERSION).$(RELEASE)
-	rm -rf /tmp/$(PACKAGE)-$(VERSION).$(RELEASE)
-	mkdir /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
-	cp -rf . /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
-	tar czf $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE).tar.gz -C /tmp $(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
-	rm -rf /tmp/$(PLUGIN_PACKAGE)-$(VERSION).$(RELEASE)
+BUILD_LOG=unibuild-log
 
-install:
-	mkdir -p ${ROOTPATH}/pipeline
-	mkdir -p ${ROOTPATH}/ruby
-	mkdir -p ${ROOTPATH}/scripts
-	mkdir -p ${CONFIGPATH}
-	cp -r pipeline/* ${ROOTPATH}/pipeline
-	cp -r ruby/* ${ROOTPATH}/ruby
-	cp -r scripts/* ${ROOTPATH}/scripts
-	cp -r pipeline_etc/* ${CONFIGPATH}
+ifdef START
+UNIBUILD_OPTS += --start $(START)
+endif
+ifdef STOP
+UNIBUILD_OPTS += --stop $(STOP)
+endif
 
-plugin_install:
-	mkdir -p ${ROOTPATH}
-	cp -r output_gem/* ${ROOTPATH}
+# The shell command below does the equivalent of BASH's pipefail
+# within the confines of POSIX.
+# Source: https://unix.stackexchange.com/a/70675/15184
+build:
+	rm -rf $(BUILD_LOG)
+	((( \
+	(unibuild build $(UNIBUILD_OPTS); echo $$? >&3) \
+	| tee $(BUILD_LOG) >&4) 3>&1) \
+	| (read XS; exit $$XS) \
+	) 4>&1
+TO_CLEAN += $(BUILD_LOG)
 
-dc_clean:
-	docker-compose -f docker-compose.qa.yml down -v
+
+uninstall:
+	unibuild make --reverse $@
+
+fresh: uninstall build
 
 clean:
-	rm -rf artifacts/
+	unibuild make $(UNIBUILD_OPTS) clean
+	unibuild clean
+	$(MAKE) -C docs $@
+	rm -rf $(TO_CLEAN)
+	find . -name '*~' | xargs rm -f

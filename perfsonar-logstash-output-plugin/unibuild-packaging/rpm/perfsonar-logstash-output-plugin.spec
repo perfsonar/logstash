@@ -13,7 +13,7 @@ Summary:		perfSONAR Logstash Opensearch Output
 License:		ASL 2.0
 Group:			Development/Libraries
 URL:			http://www.perfsonar.net
-Source0:		perfsonar-logstash-output-plugin-%{version}.%{perfsonar_auto_relnum}.tar.gz
+Source0:		perfsonar-logstash-output-plugin-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
 Requires:		logstash-oss
@@ -26,12 +26,12 @@ A package that installs the perfSONAR logstash pipeline output plugin for opense
 /usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
 
 %prep
-%setup -q -n perfsonar-logstash-output-plugin-%{version}.%{perfsonar_auto_relnum}
+%setup -q -n perfsonar-logstash-output-plugin-%{version}
 
 %build
 
 %install
-make ROOTPATH=%{buildroot}/%{plugin_base} plugin_install
+make ROOTPATH=%{buildroot}/%{plugin_base} install
 
 %clean
 rm -rf %{buildroot}
