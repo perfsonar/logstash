@@ -1,5 +1,5 @@
-perfsonar-logstash (1.0-1) unstable; urgency=low
+perfsonar-logstash (5.0.0~b1.1-1) perfsonar-5.0; urgency=low
 
   * Initial release. 
 
- -- Fernanda Barros <fbarros@ufba.br>  Mon, 30 Aug 2021 14:20:09 -0300
+ -- perfSONAR developers <debian@perfsonar.net>  Thu, 26 May 2022 11:24:25 -0400
