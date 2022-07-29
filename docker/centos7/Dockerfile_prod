@@ -1,0 +1,29 @@
+FROM centos:7
+
+#cleanup to enable systemd
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+    systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+    rm -f /lib/systemd/system/multi-user.target.wants/*;\
+    rm -f /etc/systemd/system/*.wants/*;\
+    rm -f /lib/systemd/system/local-fs.target.wants/*; \
+    rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+    rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+    rm -f /lib/systemd/system/basic.target.wants/*;\
+    rm -f /lib/systemd/system/anaconda.target.wants/*;
+
+#Install dependencies, repo
+RUN yum update -y && \
+    yum install -y epel-release \
+    http://linux.mirrors.es.net/perfsonar/el7/x86_64/latest/packages/perfSONAR-repo-staging-0.10-1.noarch.rpm && \
+    yum clean all
+
+#Install logstash package
+RUN yum install -y perfsonar-logstash
+
+#shared volumes
+VOLUME ["/sys/fs/cgroup", "/var/log", "/etc/rsyslog.d"]
+
+
+EXPOSE 443
+
+CMD ["/usr/sbin/init"]

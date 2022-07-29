@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  pslogstash:
+    image: 'perfsonar/logstash:5.0.0b1'
+    build:
+      context: .
+      dockerfile: docker/centos7/Dockerfile_prod
+    tmpfs: 
+       - /run
+       - /tmp
+    volumes:
+       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    environment: 
+      - container=docker
+      - TZ=UTC
+    tty: true
+    restart: on-failure
+    network_mode: "host"
