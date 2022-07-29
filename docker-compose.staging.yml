@@ -1,7 +1,7 @@
 #build docker container using staging repo
 version: '3.7'
 services:
-  pslogstash:
+  pslogstash-centos7-staging:
     image: 'perfsonar/logstash:5.0.0b1'
     build:
       context: .
