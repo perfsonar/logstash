@@ -1,3 +1,4 @@
+#This uses staging repo to download and install perfsonar rpms
 FROM centos:7
 
 #cleanup to enable systemd

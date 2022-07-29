@@ -1,13 +1,14 @@
+#build docker container using staging repo
 version: '3.7'
 services:
   pslogstash:
     image: 'perfsonar/logstash:5.0.0b1'
     build:
       context: .
-      dockerfile: docker/centos7/Dockerfile_prod
+      dockerfile: docker/centos7/Dockerfile_staging
     tmpfs: 
        - /run
-       - /tmp
+       - /tmp:exec
     volumes:
        - /sys/fs/cgroup:/sys/fs/cgroup:ro
     environment: 
