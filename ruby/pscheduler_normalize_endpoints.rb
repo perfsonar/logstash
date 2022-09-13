@@ -30,7 +30,7 @@ def parse_endpoint(endpoint)
     return endpoint
 end
 
-def get_ips(address)
+def get_ips(address, ipversion=nil)
     result = {
         'ipv4' => nil,
         'hostname_v4' => nil,
@@ -39,6 +39,9 @@ def get_ips(address)
     }
     is_hostname = !Regexp.union([Resolv::IPv4::Regex, Resolv::IPv6::Regex]).match?(address)
     
+    # Try getaddrinfo first. It looks in /etc/hosts hen falsback to DNS
+    # If a hostname has both IPv4 and IPv6 addresses, but only one set is in hosts file
+    # then it will not try DNSS and you will not get all the addresses.
     begin
         #note: reverse lookups with getaddrinfo don't seem to consistently work so don't even bother
         addrinfo = Socket.getaddrinfo(address, nil)
@@ -51,6 +54,23 @@ def get_ips(address)
                 #remove scope id since not compatible with elastic ip type
                 result['ipv6'] = result['ipv6'].gsub(/%\d+?/,"")
                 #result['hostname_v6'] = ai[2]
+            end
+        end
+
+        # If we didn't get ipv4 or ipv6 (when version specified) from getaddrinfo, then try DNS
+        if ipversion == 4 and is_hostname and result['ipv4'].nil? then
+            Resolv::DNS.open do |dns|
+                dns_res = dns.getresources(address, Resolv::DNS::Resource::IN::A).map(&:address)
+                if dns_res.length > 0 then
+                    result['ipv4'] = "#{dns_res[0]}"
+                end
+            end
+        elsif ipversion == 6 and is_hostname and result['ipv6'].nil? then
+            Resolv::DNS.open do |dns|
+                dns_res = dns.getresources(address, Resolv::DNS::Resource::IN::AAAA).map(&:address)
+                if dns_res.length > 0 then
+                    result['ipv6'] = "#{dns_res[0]}"
+                end
             end
         end
     rescue
@@ -83,7 +103,7 @@ def get_ips(address)
 end
 
 def handle_observer(event, input_address, ipversion)
-    address = get_ips(input_address)
+    address = get_ips(input_address, ipversion)
     
     if ipversion == 6 or (!ipversion and address['ipv6']) then
         event.set("[meta][observer][ip]", address['ipv6'])
@@ -95,8 +115,8 @@ def handle_observer(event, input_address, ipversion)
 end
 
 def handle_pair(event, input_source, input_dest, ipversion)
-    source = get_ips(input_source)
-    dest = get_ips(input_dest)
+    source = get_ips(input_source, ipversion)
+    dest = get_ips(input_dest, ipversion)
     
     if ipversion == 6 or (!ipversion and source['ipv6'] and dest['ipv6']) then
         event.set("[meta][source][ip]", source['ipv6'])
@@ -114,7 +134,7 @@ def handle_pair(event, input_source, input_dest, ipversion)
 end
 
 def handle_source(event, input_address, ipversion)
-    address = get_ips(input_address)
+    address = get_ips(input_address, ipversion)
     
     if ipversion == 6 or (!ipversion and address['ipv6']) then
         event.set("[meta][source][ip]", address['ipv6'])
