@@ -12,5 +12,5 @@ override_dh_auto_build:
 	@true
 
 override_dh_auto_install:
-	make -C perfsonar-logstash-output-plugin ROOTPATH=$(ROOT)/usr/lib/perfsonar/logstash/plugin install
+	make ROOTPATH=$(ROOT)/usr/lib/perfsonar/logstash/plugin install
 
