@@ -8,11 +8,11 @@ PLUGIN_INSTALLED=$(/usr/share/logstash/bin/logstash-plugin list --verbose | grep
 if [ ! -z "$PLUGIN_INSTALLED" ]; then
     #if upgrade, safely remove old plugin before adding new
     systemctl stop logstash
-    /usr/share/logstash/bin/logstash-plugin remove $PLUGIN
-    /usr/share/logstash/bin/logstash-plugin install /etc/perfsonar/logstash_output/logstash-output-opensearch.gem
+    /usr/share/logstash/bin/logstash-plugin remove $PLUGIN_INSTALLED
+    /usr/share/logstash/bin/logstash-plugin install /usr/lib/perfsonar/logstash/plugin/logstash-output-opensearch.gem
     systemctl start logstash
 else
-    /usr/share/logstash/bin/logstash-plugin install /etc/perfsonar/logstash_output/logstash-output-opensearch.gem
+    /usr/share/logstash/bin/logstash-plugin install /usr/lib/perfsonar/logstash/plugin/logstash-output-opensearch.gem
 fi
 
 #DEBHELPER#

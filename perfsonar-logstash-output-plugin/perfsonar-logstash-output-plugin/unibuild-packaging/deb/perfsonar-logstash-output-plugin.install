@@ -1,1 +1,1 @@
-output_gem/logstash-output-opensearch.gem /etc/perfsonar/logstash_output/
+output_gem/logstash-output-opensearch.gem /usr/lib/perfsonar/logstash/plugin/
