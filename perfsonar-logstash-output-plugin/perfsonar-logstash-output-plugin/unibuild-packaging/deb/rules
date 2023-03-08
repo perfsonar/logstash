@@ -1,16 +1,12 @@
 #!/usr/bin/make -f
-
-ROOT ?= $(CURDIR)/debian/$(DEB_SOURCE_PACKAGE)
-
 %:
 	dh $@
 
-#override_dh_auto_clean:
-#	
-#
+override_dh_auto_clean:
+	
+
 override_dh_auto_build:
-	@true
+	
 
 override_dh_auto_install:
-	make -C perfsonar-logstash-output-plugin ROOTPATH=$(ROOT)/usr/lib/perfsonar/logstash/plugin install
-
+	
