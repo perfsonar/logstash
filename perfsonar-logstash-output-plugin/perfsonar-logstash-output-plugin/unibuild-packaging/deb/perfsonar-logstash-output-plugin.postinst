@@ -1,7 +1,7 @@
 #!/bin/sh
 # postinst script for perfsonar-logstash-output-plugin
 
-chown -R logstash:logstash /etc/perfsonar/logstash_output
+chown -R logstash:logstash /usr/lib/perfsonar/logstash/plugin/
 
 PLUGIN_INSTALLED=$(/usr/share/logstash/bin/logstash-plugin list --verbose | grep logstash-output-opensearch)
 #TODO: compare plugin installed version with package version
