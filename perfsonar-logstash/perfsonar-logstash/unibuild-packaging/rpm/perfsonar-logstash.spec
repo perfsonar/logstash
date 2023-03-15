@@ -20,16 +20,13 @@ Source0:		perfsonar-logstash-%{version}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:		noarch
 Requires:       logstash-oss
+Requires:       perfsonar-common
 Requires:       perfsonar-logstash-output-plugin
 Requires(post): python3
 Requires(post): python36-PyYAML
 
 %description
 A package that installs the perfSONAR logstash pipeline for enriching measurements prior to storage.
-
-%pre
-/usr/sbin/groupadd -r perfsonar 2> /dev/null || :
-/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
 
 %prep
 %setup -q -n perfsonar-logstash-%{version}
