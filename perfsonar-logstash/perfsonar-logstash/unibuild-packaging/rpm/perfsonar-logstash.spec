@@ -23,7 +23,11 @@ Requires:       logstash-oss
 Requires:       perfsonar-common
 Requires:       perfsonar-logstash-output-plugin
 Requires(post): python3
+%if 0%{?el7}
 Requires(post): python36-PyYAML
+%else
+Requires(post): python3-pyyaml
+%endif
 
 %description
 A package that installs the perfSONAR logstash pipeline for enriching measurements prior to storage.
