@@ -10,4 +10,4 @@ ifndef ROOTPATH
 	@false
 endif
 	mkdir -p ${ROOTPATH}
-	cp -r output_gem/* ${ROOTPATH}
+	cp -r plugin/* ${ROOTPATH}
