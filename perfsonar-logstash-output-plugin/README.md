@@ -62,7 +62,7 @@ Run the `bin/logstash-plugin prepare-offline-pack` subcommand to package the plu
 
 ## Install the created offline plugin pack (optional)
 
-Run the `bin/logstash-plugin install` subcommand and pass in the file URI of the offline plugin pack.
+Run the `bin/logstash-plugin install` subcommand and pass in the file URI of the offline plugin pack:
 
 ```sh
 /usr/share/logstash/bin/logstash-plugin install file:$PWD/logstash-output-plugin-offline-7.17.9.zip
