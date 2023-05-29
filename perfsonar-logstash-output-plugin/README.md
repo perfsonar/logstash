@@ -1,5 +1,9 @@
 # How to build logstash offline plugin pack
 
+The Logstash plugin manager provides support for preparing offline plugin packs that you can use to install Logstash plugins on systems that don’t have Internet access.
+
+This procedure requires a staging machine running Logstash that has access to a public or private Rubygems server. The staging machine downloads and packages all the files and dependencies required for offline installation.
+
 ## Download logstash-oss
 
 **for latest version:**
