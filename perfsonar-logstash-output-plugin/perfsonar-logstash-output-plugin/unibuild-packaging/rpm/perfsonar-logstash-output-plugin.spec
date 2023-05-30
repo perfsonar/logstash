@@ -39,12 +39,12 @@ rm -rf %{buildroot}
 %post
 if [ "$1" = "1" ]; then
     #if new install, add plugin to logstash
-    /usr/share/logstash/bin/logstash-plugin install %{plugin_base}/logstash-output-opensearch.gem
+    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
 else
     #if upgrade, safely remove old plugin before adding new
     systemctl stop logstash.service
     /usr/share/logstash/bin/logstash-plugin remove logstash-output-opensearch
-    /usr/share/logstash/bin/logstash-plugin install %{plugin_base}/logstash-output-opensearch.gem
+    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
     systemctl start logstash.service
 fi
 
@@ -59,7 +59,7 @@ fi
 %files
 %defattr(0644,perfsonar,perfsonar,0755)
 %license LICENSE
-%attr(0755, logstash, logstash) %{plugin_base}/logstash-output-opensearch.gem
+%attr(0755, logstash, logstash) %{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
 
 %changelog
 * Sun Mar 21 2021 andy@es.net 4.4.0-0.0.a1
