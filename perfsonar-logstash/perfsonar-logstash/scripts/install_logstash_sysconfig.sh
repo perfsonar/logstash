@@ -3,12 +3,12 @@
 if command -v lsb_release &> /dev/null; then 
     OS=$(lsb_release -si)
 elif [ -f /etc/os-release ]; then
-    OS=$(awk -F= '/^NAME/{print $2}' /etc/os-release)
+    OS=$(awk -F= '/^PLATFORM_ID/{print $2}' /etc/os-release)
 else
     OS="Unknown"
 fi
 
-if [[ $OS == *"CentOS"* ]]; then
+if [[ $OS == *"platform:el"* ]]; then
     if [ ! -e /etc/sysconfig/logstash ]; then
         ln -s /etc/perfsonar/logstash/logstash_sysconfig /etc/sysconfig/logstash
     fi
