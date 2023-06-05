@@ -2,13 +2,13 @@
 
 if command -v lsb_release &> /dev/null; then 
     OS=$(lsb_release -si)
-elif [ -f /etc/os-release ]; then
-    OS=$(awk -F= '/^PLATFORM_ID/{print $2}' /etc/os-release)
+elif [ -e '/etc/redhat-release' ]; then
+    OS="redhat"
 else
     OS="Unknown"
 fi
 
-if [[ $OS == *"platform:el"* ]]; then
+if [[ $OS == "redhat" ]]; then
     if [ ! -e /etc/sysconfig/logstash ]; then
         ln -s /etc/perfsonar/logstash/logstash_sysconfig /etc/sysconfig/logstash
     fi
