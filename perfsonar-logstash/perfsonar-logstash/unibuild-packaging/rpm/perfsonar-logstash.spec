@@ -38,7 +38,7 @@ A package that installs the perfSONAR logstash pipeline for enriching measuremen
 %build
 
 %install
-make ROOTPATH=%{buildroot}/%{logstash_base} CONFIGPATH=%{buildroot}/%{config_base} install
+make ROOTPATH=%{buildroot}/%{logstash_base} CONFIGPATH=%{buildroot}/%{config_base} SYSTEMDPATH=%{buildroot}/%{_sysconfdir}/systemd/system install
 
 %clean
 rm -rf %{buildroot}

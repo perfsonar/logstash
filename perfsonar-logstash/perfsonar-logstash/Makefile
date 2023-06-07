@@ -13,13 +13,17 @@ ifndef CONFIGPATH
 	@echo No CONFIGPATH specified for installation
 	@false
 endif
+ifndef SYSTEMDPATH
+	@echo No SYSTEMDPATH specified for installation
+	@false
+endif
 	mkdir -p ${ROOTPATH}/pipeline
 	mkdir -p ${ROOTPATH}/ruby
 	mkdir -p ${ROOTPATH}/scripts
 	mkdir -p ${CONFIGPATH}
-	mkdir -p /etc/systemd/system/logstash.service.d
+	mkdir -p ${SYSTEMDPATH}/logstash.service.d
 	cp -r pipeline/* ${ROOTPATH}/pipeline
 	cp -r ruby/* ${ROOTPATH}/ruby
 	cp -r scripts/* ${ROOTPATH}/scripts
 	cp -r pipeline_etc/* ${CONFIGPATH}
-	cp -r systemd/* /etc/systemd/system/logstash.service.d/
+	cp -r systemd/* ${SYSTEMDPATH}/logstash.service.d/
