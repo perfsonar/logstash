@@ -17,7 +17,9 @@ endif
 	mkdir -p ${ROOTPATH}/ruby
 	mkdir -p ${ROOTPATH}/scripts
 	mkdir -p ${CONFIGPATH}
+	mkdir -p /etc/systemd/system/logstash.service.d
 	cp -r pipeline/* ${ROOTPATH}/pipeline
 	cp -r ruby/* ${ROOTPATH}/ruby
 	cp -r scripts/* ${ROOTPATH}/scripts
 	cp -r pipeline_etc/* ${CONFIGPATH}
+	cp -r systemd/* /etc/systemd/system/logstash.service.d/
