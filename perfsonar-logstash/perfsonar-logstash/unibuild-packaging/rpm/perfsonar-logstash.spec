@@ -6,7 +6,7 @@
 %define config_base         /etc/perfsonar/logstash
 
 #Version variables set by automated scripts
-%define perfsonar_auto_version 5.0.2
+%define perfsonar_auto_version 5.0.3
 %define perfsonar_auto_relnum 1
 
 Name:			perfsonar-logstash
@@ -38,7 +38,7 @@ A package that installs the perfSONAR logstash pipeline for enriching measuremen
 %build
 
 %install
-make ROOTPATH=%{buildroot}/%{logstash_base} CONFIGPATH=%{buildroot}/%{config_base} install
+make ROOTPATH=%{buildroot}/%{logstash_base} CONFIGPATH=%{buildroot}/%{config_base} SYSTEMDPATH=%{buildroot}/%{_sysconfdir}/systemd/system install
 
 %clean
 rm -rf %{buildroot}
@@ -70,6 +70,7 @@ fi
 %config(noreplace) %{pipeline_base}/01-inputs.conf
 %config(noreplace) %{pipeline_base}/99-outputs.conf
 %config(noreplace) %{config_base}/logstash_sysconfig
+%config(noreplace) %{_sysconfdir}/systemd/system/logstash.service.d/*
 %attr(0755, perfsonar, perfsonar) %{scripts_base}/*
 #Use globs so don't dupicate config files above
 %{pipeline_base}/0[2-9]-*.conf
