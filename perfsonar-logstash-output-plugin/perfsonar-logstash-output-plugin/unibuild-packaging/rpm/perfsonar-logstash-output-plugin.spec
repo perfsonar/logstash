@@ -3,7 +3,7 @@
 %define plugin_base         %{logstash_base}/plugin
 
 #Version variables set by automated scripts
-%define perfsonar_auto_version 5.0.3
+%define perfsonar_auto_version 5.0.4
 %define perfsonar_auto_relnum 1
 
 Name:			perfsonar-logstash-output-plugin
