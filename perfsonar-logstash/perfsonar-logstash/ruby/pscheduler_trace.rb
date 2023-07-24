@@ -44,8 +44,11 @@ def filter(event)
         event.set("[@metadata][result][hop][success_count]", success_count)
         event.set("[@metadata][result][hop][error_count]", error_count)
         event.set("[@metadata][result][hop][ip]", hop_ips)
+        event.set("[@metadata][result][hop][ip_str]", hop_ips.join(" "))
         event.set("[@metadata][result][hop][as_number]", hop_asns)
+        event.set("[@metadata][result][hop][as_number_str]", hop_asns.join(" "))
         event.set("[@metadata][result][hop][as_organization]", hop_asos)
+        event.set("[@metadata][result][hop][as_organization_str]", hop_asos.join(" "))
         if path_mtu then
             event.set("[@metadata][result][mtu]", path_mtu)
         end
