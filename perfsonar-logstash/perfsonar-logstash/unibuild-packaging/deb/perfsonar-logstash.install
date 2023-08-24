@@ -1,4 +1,3 @@
 pipeline/* /usr/lib/perfsonar/logstash/pipeline/
 scripts/* /usr/lib/perfsonar/logstash/scripts/
 ruby/* /usr/lib/perfsonar/logstash/ruby/
-pipeline_etc/logstash_sysconfig /etc/perfsonar/logstash/
