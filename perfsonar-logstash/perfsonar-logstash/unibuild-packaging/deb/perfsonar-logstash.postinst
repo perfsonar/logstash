@@ -2,13 +2,13 @@
 # postinst script for perfsonar-logstash
 
 # assign file and directory permissions
+mkdir -p /etc/perfsonar/logstash
 chown -R perfsonar:perfsonar /usr/lib/perfsonar/logstash /etc/perfsonar/logstash
 chmod 644 $(find /usr/lib/perfsonar/logstash -type f) $(find /etc/perfsonar/logstash -type f)
 chmod 755 $(find /usr/lib/perfsonar/logstash -type d) $(find /etc/perfsonar/logstash -type d) /usr/lib/perfsonar/logstash/scripts/*
 
 # run logstash configuration scripts
 python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
-bash /usr/lib/perfsonar/logstash/scripts/install_logstash_sysconfig.sh
 
 # add systemd override to logstash timeout
 mkdir /etc/systemd/system/logstash.service.d
