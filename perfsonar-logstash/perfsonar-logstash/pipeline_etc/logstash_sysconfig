@@ -1,6 +1,5 @@
 ## Logstash environment variables.
 log_level=info
-opensearch_output_host=https://localhost:9200
-opensearch_output_user=pscheduler_logstash
-opensearch_output_password=pscheduler_logstash
 XPACK_MONITORING_ENABLED=False
+RATE_CACHE_MAX_ENTRIES=10000000
+RATE_CACHE_EXPIRES=600
