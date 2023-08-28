@@ -1,4 +1,4 @@
-name: Logstash Docker Images
+name: perfSONAR Logstash Image
 
 # This action builds Docker images of logstash then 
 # pushes result to GitHub Container Registry.

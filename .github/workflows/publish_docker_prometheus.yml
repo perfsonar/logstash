@@ -1,4 +1,4 @@
-name: Logstash Docker Images
+name: Prometheus Logstash Image
 
 # This action builds Docker images of logstash then 
 # pushes result to GitHub Container Registry.
