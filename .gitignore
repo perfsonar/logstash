@@ -5,9 +5,9 @@
 .vscode/
 .env
 artifacts/
-docker-compose.yml
 ansible/vars/env.yml
 unibuild-log
 unibuild-work/
 unibuild-repo/
 multiarch_build/
+DOSB/

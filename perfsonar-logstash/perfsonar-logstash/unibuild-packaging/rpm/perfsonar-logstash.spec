@@ -50,9 +50,6 @@ rm -rf %{buildroot}
 #update logstash pipelines.yml
 %{scripts_base}/update_logstash_pipeline_yml.py
 
-#Point at logstash settings
-%{scripts_base}/install_logstash_sysconfig.sh
-
 #Restart/enable logstash
 %systemd_post logstash.service
 if [ "$1" = "1" ]; then
