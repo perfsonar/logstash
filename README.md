@@ -23,7 +23,7 @@ Each pipeline is built as a separate docker image. Both having a number of custo
 - **/usr/lib/perfsonar/logstash/pipeline/99-outputs.conf** - Override this to define a custom output filter if you do not want to use the default output.
 
 ### Prometheus
-- **/usr/lib/perfsonar/logstash/prometheus_pipeline/<YOU-FILENAME-HERE>.conf** - Override any file in the .conf directory. You will want to add at least one input filter likely an HTTP poller to grab the data. You can override *99-outputs.conf* if you want a custom output filter. 
+- **/usr/lib/perfsonar/logstash/prometheus_pipeline/*.conf** - Override any file in the .conf directory. You will want to add at least one input filter likely an HTTP poller to grab the data. You can override *99-outputs.conf* if you want a custom output filter. 
 
 # OS Packages
 
