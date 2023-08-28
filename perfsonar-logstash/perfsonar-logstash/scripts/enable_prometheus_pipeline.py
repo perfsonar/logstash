@@ -20,7 +20,8 @@ for pipeline in pipelines_yml:
 if not pipeline_exists:
     pipelines_yml.append({
         "pipeline.id": "prometheus",
-        "path.config": "/usr/lib/perfsonar/logstash/prometheus_pipeline/*.conf"
+        "path.config": "/usr/lib/perfsonar/logstash/prometheus_pipeline/*.conf",
+        "pipeline.ecs_compatibility": "disabled"
     })
     with open('/etc/logstash/pipelines.yml', 'w') as file:
         file.write(yaml.dump(pipelines_yml, default_flow_style=False))
