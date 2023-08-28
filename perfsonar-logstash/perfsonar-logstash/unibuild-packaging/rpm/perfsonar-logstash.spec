@@ -47,9 +47,6 @@ rm -rf %{buildroot}
 #update logstash pipelines.yml
 %{scripts_base}/update_logstash_pipeline_yml.py
 
-#Point at logstash settings
-%{scripts_base}/install_logstash_sysconfig.sh
-
 #Restart/enable logstash
 %systemd_post logstash.service
 if [ "$1" = "1" ]; then
@@ -69,7 +66,6 @@ fi
 %license LICENSE
 %config(noreplace) %{pipeline_base}/01-inputs.conf
 %config(noreplace) %{pipeline_base}/99-outputs.conf
-%config(noreplace) %{config_base}/logstash_sysconfig
 %config(noreplace) %{_sysconfdir}/systemd/system/logstash.service.d/*
 %attr(0755, perfsonar, perfsonar) %{scripts_base}/*
 #Use globs so don't dupicate config files above
