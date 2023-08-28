@@ -1,45 +1,34 @@
 # perfSONAR Logstash Pipeline
 
+This contains a set of Logstash pipelines used by the perfSONAR project to process data and store in OpenSearch. It contains the following pipelines:
 
-**UNDER CONSTRUCTION: NOT FOR PRODUCTION USE**
+- **perfSONAR Pipeline**: This pipeline runs an HTTP listener that accepts measurement results being archived by pscheduler.
 
-## Build and use Docker image for development
+- **Prometheus Pipeline**: This is a pipeline for reading generic Prometheus Metrics and storing them in OpenSearch. 
 
-```
-make local # only need to do this first time to copy config in place
-make #run this everytime you make change to pipeline
-docker-compose up -d
-```
+# Docker Images
 
-## RPMS for centos7
-```
-#Build rpm and test install in a container
-make centos7
+Each pipeline is built as a separate docker image. Both having a number of customization options:
 
-##verify RPM install
-docker-compose -f docker-compose.qa.yml up -d centos7
-docker-compose -f docker-compose.qa.yml exec centos7 bash
-tail -f /var/log/logstash/logstash-plain.log 
-```
+## Docker Environment Variables
 
-## Debian package
-```
-#Build logstash .deb
-make release
-make build
-git clone https://github.com/perfsonar/debian-docker-buildmachines.git ../debian-docker-buildmachines
-pwd=$(pwd)
-cd ../debian-docker-buildmachines
-./build-in-docker logstash
-cd $pwd
-mkdir -p artifacts/debian/
-cp ../build_results/*deb artifacts/debian/
+- **opensearch_output_host** - The hostname of the OpenSearch instance
+- **opensearch_output_user** - The username used to authenticate to OpenSearch
+- **opensearch_output_password** - The password used to authenticate to OpenSearch
 
 
-#Test it with perfsonar-testpoint
-docker-compose -f docker-compose.debian.yml build
-docker-compose -f docker-compose.debian.yml up -d
-docker-compose -f docker-compose.debian.yml exec debian bash
-apt install perfsonar-testpoint
-pscheduler task --archive '{"archiver":"http","data":{"schema":2,"_url":"http://localhost:11283","op":"put","_headers":{"content-type":"application/json"}}}' rtt --dest localhost
-```
+## Docker Volumes
+
+### perfSONAR 
+- **/usr/lib/perfsonar/logstash/pipeline/99-outputs.conf** - Override this to define a custom output filter if you do not want to use the default output.
+
+### Prometheus
+- **/usr/lib/perfsonar/logstash/prometheus_pipeline/<YOU-FILENAME-HERE>.conf** - Override any file in the .conf directory. You will want to add at least one input filter likely an HTTP poller to grab the data. You can override *99-outputs.conf* if you want a custom output filter. 
+
+# OS Packages
+
+A full compliment of OS packages can be built using [unibuild](https://github.com/perfsonar/unibuild). They consist of the following:
+
+- **perfsonar-logstash** - This package contains both pipelines but only the perfSONAR pipeline is enabled by default. The Prometheus pipeline needs inputs defined which is generally handled by other perfSONAR packages (like perfsonar-archive) or auto-generated. You can enable manually with the script `/usr/lib/perfsonar/logstash/scripts/enable_prometheus_pipeline.py`
+
+- **perfsonar-logstash-output-plugin** - Install the OpenSearch output plugin since not included by default with logstash. 
