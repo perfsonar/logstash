@@ -20,6 +20,9 @@ end
 
 def _filter(event)
     prom_data = event.get("[message]")
+    if prom_data.nil? then
+        return []
+    end
 
     ####
     # The following will need to be configured externally
@@ -38,9 +41,6 @@ def _filter(event)
     record_type = event.get("[type]")
     rate_key_prefix = "#{meta_id}::#{record_type}"
     curr_time = event.get("@timestamp").to_i
-    if prom_data.nil? then
-        return []
-    end
     prom_data.each_line do |prom_line|
         if type_matches = prom_line.match(/^\#\s*TYPE\s+([a-zA-Z_:][a-zA-Z0-9_:]*)\s+(\w+)\s*$/) then
             #we don't actually use this, but seems useful when support for histograms gets added
