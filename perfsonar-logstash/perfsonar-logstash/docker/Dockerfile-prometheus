@@ -17,6 +17,7 @@ RUN cd /usr/lib/perfsonar/logstash/java &&\
 
 #make config look like non-docker so scripts work
 RUN  mkdir /etc/logstash &&\
+       echo "" > /usr/share/logstash/config/pipelines.yml &&\
        ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml
 USER logstash
 

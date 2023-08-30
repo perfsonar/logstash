@@ -11,7 +11,8 @@ USER root
 RUN apt-get update -y && apt-get install -y python3 python3-yaml
 #make config look like non-docker so scripts work
 RUN  mkdir /etc/logstash &&\
-       ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml
+       echo "" > /usr/share/logstash/config/pipelines.yml &&\
+       ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml 
 USER logstash
 
 #Generate pipelines.yml
