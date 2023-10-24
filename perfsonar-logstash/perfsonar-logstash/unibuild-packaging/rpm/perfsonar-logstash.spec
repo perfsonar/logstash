@@ -70,7 +70,6 @@ fi
 %config(noreplace) %{pipeline_base}/01-inputs.conf
 %config(noreplace) %{pipeline_base}/99-outputs.conf
 %config(noreplace) %{prometheus_base}/99-outputs.conf
-%config(noreplace) %{config_base}/logstash_sysconfig
 %config(noreplace) %{_sysconfdir}/systemd/system/logstash.service.d/*
 %attr(0755, perfsonar, perfsonar) %{scripts_base}/*
 #Use globs so don't dupicate config files above
