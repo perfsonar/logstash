@@ -3,7 +3,7 @@ Maintainer: perfSONAR developers <debian@perfsonar.net>
 Section: net
 Priority: optional
 Standards-Version: 4.3.0
-Build-Depends: debhelper (>= 10)
+Build-Depends: debhelper (>= 10), maven
 Homepage: http://www.perfsonar.net
 
 Package: perfsonar-logstash

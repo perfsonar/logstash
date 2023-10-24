@@ -9,5 +9,6 @@ override_dh_auto_build:
 	
 
 override_dh_auto_install:
-	
-
+	dh_install
+	mkdir -p $(CURDIR)/debian/perfsonar-logstash/usr/lib/perfsonar/logstash/java/maven
+	mvn -Dmaven.repo.local=$(CURDIR)/debian/perfsonar-logstash/usr/lib/perfsonar/logstash/java/maven -f $(CURDIR)/debian/perfsonar-logstash/usr/lib/perfsonar/logstash/java/pom.xml dependency:resolve

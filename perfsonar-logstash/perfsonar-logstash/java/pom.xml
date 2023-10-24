@@ -1,0 +1,17 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.perfsonar</groupId>
+    <artifactId>prometheus-pipeline</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>prometheus-pipeline</name>
+    <url>https://perfsonar.net</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+    </dependencies>
+</project>

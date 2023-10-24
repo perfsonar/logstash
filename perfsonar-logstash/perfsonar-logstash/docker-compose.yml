@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  perfsonar_logstash:
+    image: 'perfsonar/logstash'
+    restart: on-failure
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+  prometheus_logstash:
+    image: 'perfsonar/logstash-prometheus'
+    restart: on-failure
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: docker/Dockerfile-prometheus
+      
