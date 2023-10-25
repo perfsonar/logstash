@@ -49,6 +49,8 @@ rm -rf %{buildroot}
 %post
 #update logstash pipelines.yml
 %{scripts_base}/update_logstash_pipeline_yml.py
+#make sure httpd input plugin is updated 
+/usr/share/logstash/bin/logstash-plugin update logstash-input-http_poller
 
 #Restart/enable logstash
 %systemd_post logstash.service
