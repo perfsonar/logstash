@@ -9,10 +9,10 @@ if [ ! -z "$PLUGIN_INSTALLED" ]; then
     #if upgrade, safely remove old plugin before adding new
     systemctl stop logstash
     /usr/share/logstash/bin/logstash-plugin remove $PLUGIN_INSTALLED
-    /usr/share/logstash/bin/logstash-plugin install file:/usr/lib/perfsonar/logstash/plugin/logstash-output-plugin-offline-7.17.9.zip
+    /usr/share/logstash/bin/logstash-plugin install file:/usr/lib/perfsonar/logstash/plugin/logstash-output-plugin-offline-8.10.4.zip
     systemctl start logstash
 else
-    /usr/share/logstash/bin/logstash-plugin install file:/usr/lib/perfsonar/logstash/plugin/logstash-output-plugin-offline-7.17.9.zip
+    /usr/share/logstash/bin/logstash-plugin install file:/usr/lib/perfsonar/logstash/plugin/logstash-output-plugin-offline-8.10.4.zip
 fi
 
 #DEBHELPER#

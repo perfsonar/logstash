@@ -9,8 +9,6 @@ chmod 755 $(find /usr/lib/perfsonar/logstash -type d) $(find /etc/perfsonar/logs
 
 # run logstash configuration scripts
 python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
-#make sure httpd input plugin is updated 
-/usr/share/logstash/bin/logstash-plugin update logstash-input-http_poller
 
 # add systemd override to logstash timeout
 mkdir /etc/systemd/system/logstash.service.d
