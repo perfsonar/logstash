@@ -6,8 +6,8 @@
 %define config_base         /etc/perfsonar/logstash
 
 #Version variables set by automated scripts
-%define perfsonar_auto_version 5.0.6
-%define perfsonar_auto_relnum 1
+%define perfsonar_auto_version 5.0.7
+%define perfsonar_auto_relnum 0.a1.0
 
 Name:			perfsonar-logstash
 Version:		%{perfsonar_auto_version}
