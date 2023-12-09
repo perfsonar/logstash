@@ -1,8 +1,8 @@
-perfsonar-logstash-output-plugin (5.0.7~a1.0-1) perfsonar-5.0-snapshot; urgency=low
+perfsonar-logstash-output-plugin (5.0.7-1) perfsonar-5.0; urgency=low
 
   * New upstream version.
 
- -- perfSONAR developers <debian@perfsonar.net>  Sat, 11 Nov 2023 07:15:52 -0500
+ -- perfSONAR developers <debian@perfsonar.net>  Sat, 09 Dec 2023 08:55:38 -0500
 
 perfsonar-logstash-output-plugin (5.0.6-1) perfsonar-5.0; urgency=low
 
