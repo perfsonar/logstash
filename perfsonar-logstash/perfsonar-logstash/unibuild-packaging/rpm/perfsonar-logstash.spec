@@ -50,6 +50,9 @@ rm -rf %{buildroot}
 #update logstash pipelines.yml
 %{scripts_base}/update_logstash_pipeline_yml.py
 
+#get permissions right so things like psConfig can write
+chown -R perfsonar:perfsonar /usr/lib/perfsonar/logstash/
+
 #Restart/enable logstash
 %systemd_post logstash.service
 if [ "$1" = "1" ]; then
