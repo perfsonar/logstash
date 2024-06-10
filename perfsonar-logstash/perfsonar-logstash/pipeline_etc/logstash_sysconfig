@@ -1,0 +1,6 @@
+## Only needed by docker - not included in RPM or DEB packages
+## Logstash environment variables.
+log_level=info
+XPACK_MONITORING_ENABLED=False
+RATE_CACHE_MAX_ENTRIES=10000000
+RATE_CACHE_EXPIRES=600

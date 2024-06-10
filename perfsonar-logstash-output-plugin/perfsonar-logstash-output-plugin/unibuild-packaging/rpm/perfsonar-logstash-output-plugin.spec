@@ -1,9 +1,10 @@
 %define install_base        /usr/lib/perfsonar/
 %define logstash_base       %{install_base}/logstash
 %define plugin_base         %{logstash_base}/plugin
+%define plugin_version      8.10.4
 
 #Version variables set by automated scripts
-%define perfsonar_auto_version 5.0.8
+%define perfsonar_auto_version 5.1.0
 %define perfsonar_auto_relnum 1
 
 Name:			perfsonar-logstash-output-plugin
@@ -39,12 +40,12 @@ rm -rf %{buildroot}
 %post
 if [ "$1" = "1" ]; then
     #if new install, add plugin to logstash
-    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
+    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-%{plugin_version}.zip
 else
     #if upgrade, safely remove old plugin before adding new
     systemctl stop logstash.service
     /usr/share/logstash/bin/logstash-plugin remove logstash-output-opensearch
-    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
+    /usr/share/logstash/bin/logstash-plugin install file:%{plugin_base}/logstash-output-plugin-offline-%{plugin_version}.zip
     systemctl start logstash.service
 fi
 
@@ -59,7 +60,7 @@ fi
 %files
 %defattr(0644,perfsonar,perfsonar,0755)
 %license LICENSE
-%attr(0755, logstash, logstash) %{plugin_base}/logstash-output-plugin-offline-7.17.9.zip
+%attr(0755, logstash, logstash) %{plugin_base}/logstash-output-plugin-offline-%{plugin_version}.zip
 
 %changelog
 * Sun Mar 21 2021 andy@es.net 4.4.0-0.0.a1

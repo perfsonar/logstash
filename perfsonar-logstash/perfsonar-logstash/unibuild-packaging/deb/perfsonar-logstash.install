@@ -1,3 +1,5 @@
 pipeline/* /usr/lib/perfsonar/logstash/pipeline/
+prometheus_pipeline/* /usr/lib/perfsonar/logstash/prometheus_pipeline/
 scripts/* /usr/lib/perfsonar/logstash/scripts/
 ruby/* /usr/lib/perfsonar/logstash/ruby/
+java/* /usr/lib/perfsonar/logstash/java/

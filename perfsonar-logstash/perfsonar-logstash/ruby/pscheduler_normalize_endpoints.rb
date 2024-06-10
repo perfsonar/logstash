@@ -131,6 +131,14 @@ def handle_pair(event, input_source, input_dest, ipversion)
         event.set("[meta][destination][hostname]", dest['hostname_v4'])
         event.set("[meta][ip_version]", 4)
     end
+
+    #Make sure we always have a hostname - fallback to IP if not set
+    if event.get("[meta][source][ip]") and not event.get("[meta][source][hostname]") then
+        event.set("[meta][source][hostname]", event.get("[meta][source][ip]"))
+    end
+    if event.get("[meta][destination][ip]") and not event.get("[meta][destination][hostname]") then
+        event.set("[meta][destination][hostname]", event.get("[meta][destination][ip]"))
+    end
 end
 
 def handle_source(event, input_address, ipversion)
@@ -144,6 +152,11 @@ def handle_source(event, input_address, ipversion)
         event.set("[meta][source][ip]", address['ipv4'])
         event.set("[meta][source][hostname]", address['hostname_v4'])
         event.set("[meta][ip_version]", 4)
+    end
+
+    #Make sure we always have a hostname - fallback to IP if not set
+    if event.get("[meta][source][ip]") and not event.get("[meta][source][hostname]") then
+        event.set("[meta][source][hostname]", event.get("[meta][source][ip]"))
     end
 end
 
