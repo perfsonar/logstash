@@ -1,8 +1,8 @@
-perfsonar-logstash-output-plugin (5.2.0~2.b1-1) perfsonar-5.2; urgency=low
+perfsonar-logstash-output-plugin (5.2.0~b1.2-1) perfsonar-5.2; urgency=low
 
   * New upstream version.
 
- -- perfSONAR developers <debian@perfsonar.net>  Mon, 12 May 2025 10:24:47 -0400
+ -- perfSONAR developers <debian@perfsonar.net>  Wed, 14 May 2025 10:53:00 -0400
 
 perfsonar-logstash-output-plugin (5.1.4-1) perfsonar-5.1; urgency=low
 
