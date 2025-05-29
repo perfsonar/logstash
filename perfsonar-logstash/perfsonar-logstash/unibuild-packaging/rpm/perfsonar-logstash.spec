@@ -25,6 +25,7 @@ Requires:       logstash-oss
 Requires:       perfsonar-common
 Requires:       perfsonar-logstash-output-plugin
 Requires(post): python3
+BuildRequires:  java-latest-openjdk-devel
 BuildRequires:  maven
 %if 0%{?el7}
 Requires(post): python36-PyYAML
