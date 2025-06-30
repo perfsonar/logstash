@@ -8,7 +8,7 @@
 %define config_base         /etc/perfsonar/logstash
 
 #Version variables set by automated scripts
-%define perfsonar_auto_version 5.2.0
+%define perfsonar_auto_version 5.2.1
 %define perfsonar_auto_relnum 1
 
 Name:			perfsonar-logstash
@@ -25,6 +25,7 @@ Requires:       logstash-oss
 Requires:       perfsonar-common
 Requires:       perfsonar-logstash-output-plugin
 Requires(post): python3
+BuildRequires:  java-latest-openjdk-devel
 BuildRequires:  maven
 %if 0%{?el7}
 Requires(post): python36-PyYAML
