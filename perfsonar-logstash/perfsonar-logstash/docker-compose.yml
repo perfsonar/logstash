@@ -1,17 +1,47 @@
-version: '3.7'
 services:
-  perfsonar_logstash:
-    image: 'perfsonar/logstash'
+  perfsonar-logstash:
+    image: ghcr.io/perfsonar/logstash:5.3.0
     restart: on-failure
     platform: linux/amd64
     build:
       context: .
       dockerfile: docker/Dockerfile
+    container_name: perfsonar-logstash
+    environment:
+      MONITORING_ENABLED: "false"
+      LOG_LEVEL: info
+      RATE_CACHE_MAX_ENTRIES: 10000000
+      RATE_CACHE_EXPIRES: 600
+      opensearch_output_host: ${OPENSEARCH_HOST}
+      opensearch_output_user: ${OPENSEARCH_USER}
+      opensearch_output_password: ${OPENSEARCH_PASSWORD}
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - 11283:11283
+    expose:
+      - "11283"
+
   prometheus_logstash:
-    image: 'perfsonar/logstash-prometheus'
+    image: ghcr.io/perfsonar/logstash-prometheus:5.3.0
     restart: on-failure
     platform: linux/amd64
     build:
       context: .
       dockerfile: docker/Dockerfile-prometheus
+    container_name: prometheus_logstash
+    environment:
+      MONITORING_ENABLED: "false"
+      LOG_LEVEL: info
+      RATE_CACHE_MAX_ENTRIES: 10000000
+      RATE_CACHE_EXPIRES: 600
+      opensearch_output_host: ${OPENSEARCH_HOST}
+      opensearch_output_user: ${OPENSEARCH_USER}
+      opensearch_output_password: ${OPENSEARCH_PASSWORD}
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"  
       

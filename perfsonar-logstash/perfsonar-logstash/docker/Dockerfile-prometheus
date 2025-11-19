@@ -1,25 +1,38 @@
-FROM opensearchproject/logstash-oss-with-opensearch-output-plugin:8.9.0
+FROM docker.elastic.co/logstash/logstash-oss:8.17.3
 
-#Copy files
-COPY ./prometheus_pipeline/* /usr/lib/perfsonar/logstash/prometheus_pipeline/
-COPY ./pipeline_etc/ /etc/perfsonar/logstash
-COPY ./ruby/ /usr/lib/perfsonar/logstash/ruby
-COPY ./scripts/ /usr/lib/perfsonar/logstash/scripts
-COPY ./java/ /usr/lib/perfsonar/logstash/java
-
-#Install caching library
+# Switch to the root user to perform installations
 USER root
-RUN apt-get update -y && apt-get install -y maven python3 python3-yaml
+
+## 1. Install dependencies for configuration scripts
+RUN apt-get update && \
+    apt-get install -y python3 python3-yaml maven && \
+    rm -rf /var/lib/apt/lists/*
+
+## 2. Install the perfSONAR Logstash output plugin
+RUN /usr/share/logstash/bin/logstash-plugin install logstash-output-opensearch
+
+## 3. Copy perfSONAR-specific files into the container
+COPY prometheus_pipeline /usr/lib/perfsonar/logstash/prometheus_pipeline
+COPY scripts /usr/lib/perfsonar/logstash/scripts
+COPY ruby /usr/lib/perfsonar/logstash/ruby
+COPY java /usr/lib/perfsonar/logstash/java
+
+## 4. Install caching library
 RUN cd /usr/lib/perfsonar/logstash/java &&\
     mkdir maven &&\
     mvn -Dmaven.repo.local=/usr/lib/perfsonar/logstash/java/maven dependency:resolve &&\
     chown -R logstash:root /usr/lib/perfsonar/logstash/java/maven
 
-#make config look like non-docker so scripts work
-RUN  mkdir /etc/logstash &&\
-       echo "[]" > /usr/share/logstash/config/pipelines.yml &&\
-       ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml
+## 5. Create Logstash configuration directory and initialize pipelines.yml
+RUN  mkdir /etc/logstash && \
+     echo "[]" > /usr/share/logstash/config/pipelines.yml && \
+     ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml 
+
+## 6. Set correct ownership and permissions
+RUN chown -R logstash:logstash /usr/lib/perfsonar/logstash/ /etc/logstash
+
+# Switch back to the logstash user
 USER logstash
 
-#Generate pipelines.yml
+## 7. Configure Logstash to use the perfSONAR pipeline
 RUN python3 /usr/lib/perfsonar/logstash/scripts/enable_prometheus_pipeline.py
