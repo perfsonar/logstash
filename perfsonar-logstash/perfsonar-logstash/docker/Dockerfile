@@ -22,11 +22,14 @@ RUN  mkdir /etc/logstash && \
      echo "[]" > /usr/share/logstash/config/pipelines.yml && \
      ln -s /usr/share/logstash/config/pipelines.yml /etc/logstash/pipelines.yml 
 
-## 5. Set correct ownership and permissions
+## 5. Change host => "localhost" to host => "0.0.0.0" to allow Logstash to listen on all interfaces (essential for Docker)
+RUN sed -i 's/host => "localhost"/host => "0.0.0.0"/g' /usr/lib/perfsonar/logstash/pipeline/01-inputs.conf
+
+## 6. Set correct ownership and permissions
 RUN chown -R logstash:logstash /usr/lib/perfsonar/logstash/ /etc/logstash
 
 # Switch back to the logstash user
 USER logstash
 
-## 6. Configure Logstash to use the perfSONAR pipeline
+## 7. Configure Logstash to use the perfSONAR pipeline
 RUN python3 /usr/lib/perfsonar/logstash/scripts/update_logstash_pipeline_yml.py
