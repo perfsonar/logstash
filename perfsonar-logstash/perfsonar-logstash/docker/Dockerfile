@@ -1,4 +1,4 @@
-FROM docker.elastic.co/logstash/logstash-oss:8.17.3
+FROM docker.elastic.co/logstash/logstash-oss:8.19.11
 
 # Switch to the root user to perform installations
 USER root
@@ -9,7 +9,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ## 2. Install the perfSONAR Logstash output plugin
-RUN /usr/share/logstash/bin/logstash-plugin install logstash-output-opensearch
+RUN /usr/share/logstash/bin/logstash-plugin install --no-verify logstash-output-opensearch
 
 ## 3. Copy perfSONAR-specific files into the container
 COPY pipeline /usr/lib/perfsonar/logstash/pipeline
