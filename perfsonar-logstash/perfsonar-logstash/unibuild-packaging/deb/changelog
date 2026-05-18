@@ -1,3 +1,9 @@
+perfsonar-logstash (5.2.5-1) perfsonar-5.2; urgency=low
+
+  * New upstream version.
+
+ -- perfSONAR developers <debian@perfsonar.net>  Mon, 18 May 2026 11:30:25 -0400
+
 perfsonar-logstash (5.2.4-1) perfsonar-5.2; urgency=low
 
   * New upstream version.
