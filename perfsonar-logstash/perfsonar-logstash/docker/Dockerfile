@@ -1,4 +1,4 @@
-FROM docker.elastic.co/logstash/logstash-oss:8.19.11
+FROM docker.elastic.co/logstash/logstash-oss:8.19.24
 
 # Switch to the root user to perform installations
 USER root
